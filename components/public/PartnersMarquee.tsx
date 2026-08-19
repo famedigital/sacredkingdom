@@ -1,4 +1,5 @@
 import { PARTNER_LOGOS } from '@/lib/content/partners';
+import { Marquee } from '@/components/ui/marquee';
 import { cn } from '@/lib/utils';
 
 export function PartnersMarquee() {
@@ -7,34 +8,31 @@ export function PartnersMarquee() {
       aria-label="Affiliations"
       className="wash-dusk border-y border-primary/20"
     >
-      <div className="container py-8 md:py-10">
-        <p className="mb-6 text-center text-[0.6875rem] font-semibold tracking-[0.32em] text-primary uppercase">
+      <div className="flex min-h-14 items-center gap-3 py-2.5 md:gap-5 md:py-3">
+        <p className="shrink-0 pl-4 text-[0.625rem] font-semibold tracking-[0.28em] text-primary uppercase md:pl-8 md:text-[0.6875rem] md:tracking-[0.32em]">
           Affiliated with
         </p>
-        <ul className="flex flex-wrap items-center justify-center">
-          {PARTNER_LOGOS.map((partner, index) => (
-            <li
+        <Marquee
+          pauseOnHover
+          className="min-w-0 flex-1 p-0 [--duration:28s] [--gap:0.25rem] [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+        >
+          {PARTNER_LOGOS.map((partner) => (
+            <div
               key={partner.name}
-              className={cn(
-                'flex min-w-[7.5rem] flex-col items-center gap-2 px-5 py-1 md:px-7',
-                index > 0 && 'md:border-l md:border-primary/25'
-              )}
+              className="flex h-12 shrink-0 items-center justify-center px-5 md:px-7"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={partner.src}
-                alt={partner.name}
+                alt={partner.fullName}
                 className={cn(
-                  'h-12 w-auto max-w-[7.5rem] object-contain',
+                  'h-9 w-auto max-w-[6.25rem] object-contain md:h-10 md:max-w-[7rem]',
                   partner.ink && 'brightness-0 opacity-70'
                 )}
               />
-              <span className="text-[10px] font-medium tracking-[0.16em] text-muted-foreground uppercase">
-                {partner.name}
-              </span>
-            </li>
+            </div>
           ))}
-        </ul>
+        </Marquee>
       </div>
     </section>
   );

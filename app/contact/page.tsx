@@ -5,6 +5,7 @@ import { PageMasthead } from '@/components/public/PageMasthead';
 import { CTASection } from '@/components/public/CTASection';
 import { Folio } from '@/components/public/Folio';
 import { ContactForm } from '@/components/contact/ContactForm';
+import { EmailUsButton } from '@/components/public/EmailUsButton';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { getContactPageContent } from '@/lib/content/get-contact';
 import { phoneToTelHref } from '@/lib/content/contact';
@@ -128,6 +129,9 @@ export default async function ContactPage() {
                       );
                     })}
                   </ul>
+                  <div className="mt-6">
+                    <EmailUsButton />
+                  </div>
                 </div>
               </aside>
             </div>

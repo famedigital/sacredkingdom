@@ -112,10 +112,57 @@ export function HeroSlideshow({
         />
       ))}
 
-      <div className="relative z-10 flex min-h-svh flex-col justify-end lg:block">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black/80 via-black/30 to-black/15 lg:hidden"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] hidden bg-gradient-to-t from-black/50 to-black/25 lg:block"
+      />
+
+      {/* Mobile: fullscreen photo + text overlay */}
+      <div className="relative z-10 flex min-h-svh flex-col justify-end lg:hidden">
+        <div className="flex w-full flex-col justify-center px-6 pt-24 pb-[calc(6.25rem+env(safe-area-inset-bottom,0px))]">
+          <p className="mb-5 text-[11px] font-semibold tracking-[0.28em] text-[#E8D5A3] uppercase">
+            {folio} / {of}
+          </p>
+          <h1 className="font-accent text-[clamp(2.2rem,4.2vw,3.75rem)] leading-[1.06] font-medium tracking-tight text-[#E8D5A3] drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)]">
+            Experience Bhutan like never before
+          </h1>
+          {tagline ? (
+            <p className="mt-5 max-w-[32ch] text-base leading-relaxed text-white/85">
+              {tagline}
+            </p>
+          ) : null}
+          {caption ? (
+            <p className="mt-6 max-w-[32ch] text-[13px] leading-snug text-white/60">
+              {caption}
+            </p>
+          ) : null}
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link
+              href="/contact#contact-form"
+              className={cn(buttonVariants({ size: 'lg' }), 'h-11 rounded-full px-7')}
+            >
+              Plan your Trip
+              <ArrowRight className="size-4" />
+            </Link>
+            <Link
+              href="/tours"
+              className="text-[13px] font-medium tracking-[0.04em] text-white/90 underline-offset-4 hover:text-white hover:underline"
+            >
+              View trips
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop: original split paper panel */}
+      <div className="relative z-10 hidden min-h-svh lg:block">
         <div
           className={cn(
-            'flex w-full flex-col justify-center px-6 py-10 md:px-10 lg:absolute lg:top-16 lg:bottom-0 lg:left-0 lg:w-[30%] lg:px-12 lg:py-12',
+            'absolute top-16 bottom-0 left-0 flex w-[30%] flex-col justify-center px-12 py-12',
             isClub ? 'wash-night' : 'wash-paper'
           )}
         >
@@ -157,21 +204,6 @@ export function HeroSlideshow({
               {caption}
             </p>
           ) : null}
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 lg:hidden">
-            <Link
-              href="/contact#contact-form"
-              className={cn(buttonVariants({ size: 'lg' }), 'h-11 rounded-full px-7')}
-            >
-              Plan your Trip
-              <ArrowRight className="size-4" />
-            </Link>
-            <Link
-              href="/tours"
-              className="text-[13px] font-medium tracking-[0.04em] text-foreground underline-offset-4 hover:text-primary hover:underline"
-            >
-              View trips
-            </Link>
-          </div>
         </div>
       </div>
 
@@ -193,7 +225,10 @@ export function HeroSlideshow({
       </div>
 
       {activeSlides.length > 1 ? (
-        <div className="absolute top-28 left-6 z-20 flex gap-1.5 lg:top-auto lg:bottom-8 lg:left-[32%]">
+        <div
+          data-hero-dots
+          className="absolute top-5 left-6 z-20 flex gap-1.5 lg:top-auto lg:bottom-8 lg:left-[32%]"
+        >
           {activeSlides.map((slide, index) => (
             <button
               key={slide.id}

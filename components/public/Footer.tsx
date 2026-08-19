@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
 import { FooterContact } from '@/components/public/FooterContact';
 import { FooterSocial } from '@/components/public/FooterSocial';
+import { EmailUsButton } from '@/components/public/EmailUsButton';
 import { useCompanyBrand } from '@/hooks/use-company-brand';
 import { BrandLogo } from '@/components/BrandLogo';
 
@@ -91,6 +92,9 @@ export function Footer() {
             </p>
 
             <FooterSocial />
+            <div className="mt-6">
+              <EmailUsButton onDark compact className="h-9 px-4" />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">

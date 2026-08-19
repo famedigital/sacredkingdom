@@ -1,0 +1,13 @@
+---
+description: Operations client files, add-client API, rosters
+globs: "**/operations/**"
+alwaysApply: false
+---
+
+# Operations clients
+
+- List + Add: `components/admin/OpsClientList.tsx` → `POST /api/admin/customers` (`upsertMasterClient`). Optional `tour_id` creates a pending booking.
+- File URL: `opsClientHref` in `lib/ops/client-key.ts` → `/admin/operations/clients/[id]`.
+- Tabs live in `BookingOpsPanel` (`variant="client"`). Rates: `Rate: {name}` line in `booking_operations.internal_notes`.
+- Rosters: `/admin/operations/rosters` (`lib/ops/registry.ts`). Do not restore a fat Operations sidebar of every resource as top-level nav.
+- Need `clients` table: `migrations/20260722_master_clients_itinerary.sql`.

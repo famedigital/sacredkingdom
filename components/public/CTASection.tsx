@@ -1,8 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Folio } from '@/components/public/Folio';
+import { EmailUsButton } from '@/components/public/EmailUsButton';
 
 export function CTASection({ chapter }: { chapter?: string }) {
   return (
@@ -17,13 +20,16 @@ export function CTASection({ chapter }: { chapter?: string }) {
             <p className="mb-6 text-base leading-relaxed text-secondary-foreground/70 md:text-lg">
               Cultural journey, luxury stay, trek, or a fully custom route — write from Thimphu and we will shape the days.
             </p>
-            <Link
-              href="/contact#contact-form"
-              className={cn(buttonVariants({ size: 'lg' }), 'h-11 rounded-full px-7')}
-            >
-              Request custom itinerary
-              <ArrowRight className="size-4" />
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href="/contact#contact-form"
+                className={cn(buttonVariants({ size: 'lg' }), 'h-11 rounded-full px-7')}
+              >
+                Request custom itinerary
+                <ArrowRight className="size-4" />
+              </Link>
+              <EmailUsButton onDark />
+            </div>
           </div>
         </div>
       </div>

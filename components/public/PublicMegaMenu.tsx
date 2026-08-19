@@ -51,7 +51,7 @@ export function PublicMegaMenu({
     <NavigationMenu
       key={pathname}
       align={align}
-      className="flex h-8 max-w-none items-center"
+      className="flex h-8 w-max max-w-none flex-none items-center justify-start"
       delay={90}
       closeDelay={180}
     >

@@ -10,6 +10,7 @@ import {
   Image,
   Calendar,
   Mail,
+  Briefcase,
   Users,
   Settings,
   Palette,
@@ -108,7 +109,7 @@ const cmsGuides = [
       'New booking requests appear here and in the bell notifications (pending status).',
       'Open a booking to set/edit the tour total (Use tour price if amount is $0).',
       'Confirm opens a deposit dialog — enter an installment (or leave blank); deposits can be added many times.',
-      'Operations tab: record guide, driver, and hotels after confirm.',
+      'Operations tab: record guide, driver, and hotels after confirm — or use Open in Operations for the full client file.',
       'Itinerary tab: customize days for this client (shared links use the custom version).',
       'Documents tab: upload room vouchers, SDF papers, invoices, payment proofs (PDF/DOC/image).',
       'Share tab: Client naked itinerary link, or Guide & driver link (no rates, includes ops).',
@@ -134,6 +135,26 @@ const cmsGuides = [
     steps: [
       'Combined list of people who booked or inquired (email + phone when available).',
       'Use it to spot repeat guests before you reply.',
+    ],
+  },
+  {
+    title: 'Operations — Clients',
+    href: '/admin/operations',
+    icon: Users,
+    steps: [
+      'This is the daily ops list. Click a name to open that guest’s file.',
+      'Add client: name + email required; phone optional. Pick a trip to create a pending booking so tabs have a tour to attach to.',
+      'On the client file, switch bookings if they have more than one trip, then use Guide, Car, Hotels, Flights, Payments, Expenses, Docs, Source, Rates.',
+      'Rates save as a Rate: {name} line in internal notes — no extra table.',
+    ],
+  },
+  {
+    title: 'Operations — Rosters',
+    href: '/admin/operations/rosters',
+    icon: Briefcase,
+    steps: [
+      'Guides, cars, hotels, and other roster tables live here (tab query).',
+      'Assign people/vehicles from the client file; keep the roster as the master list.',
     ],
   },
   {

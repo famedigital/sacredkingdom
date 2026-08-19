@@ -1,0 +1,14 @@
+---
+description: Sacred Kingdom Travel identity, git, secrets, Next 16
+alwaysApply: true
+---
+
+# Sacred Kingdom Travel
+
+- Client is **Sacred Kingdom Travel**, not Wangchuk Tours. Use `normalizeCompanyName` for CRM names (`/wangchuk/i` → SKT).
+- GitHub: `https://github.com/famedigital/sacredkingdom.git`, branch `master`, push as GitHub user `famedigital`.
+- Read `AGENT_MEMORY.md` for architecture. Ignore stale Wangchuk / mock-admin / `wangchukstour` docs.
+- Next.js 16: read `node_modules/next/dist/docs/` before new APIs.
+- Never commit `.env.local` or secrets. Never put service-role keys or Cloudinary secrets in markdown.
+- Do not edit Cursor plan files.
+- Public palette: black `#0A0A0A`, gold `#C4A35A` / `#E8D5A3`, ivory `#F4F1EA` — not the old red theme.

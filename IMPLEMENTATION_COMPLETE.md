@@ -1,4 +1,9 @@
-# 🚀 COMPLETE IMPLEMENTATION SUMMARY
+# Implementation notes (historical)
+
+> **2026-08-20:** This file was written for an earlier Wangchuk Tours backend dump. **Do not follow it for brand, GitHub, JWT lifetimes, or env keys.** Use `AGENT_MEMORY.md`, `PROJECT_MEMORY.md`, and `migrations/`. Auth access tokens are ~12 hours (see `lib/auth/jwt.ts`), not 15 minutes.
+
+## Original checklist (may be outdated)
+
 ## Wangchuks Bhutan Tours & Treks - Full Backend Integration
 
 ---

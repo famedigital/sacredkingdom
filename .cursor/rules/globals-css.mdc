@@ -1,0 +1,9 @@
+---
+description: Preserve gold-rule CSS brace in globals.css
+globs: app/globals.css
+alwaysApply: false
+---
+
+# globals.css
+
+Keep `.gold-rule {` as a valid rule block. Do not delete the opening brace or merge the selector into a broken statement. Companion class: `.gold-rule-center`.

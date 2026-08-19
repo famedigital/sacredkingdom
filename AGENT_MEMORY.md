@@ -1,208 +1,73 @@
-# Wangchuk Tour - Agent Memory
+# Sacred Kingdom Travel — agent memory
 
-## Project Context
-- **Client**: Wangchuk Tour (Bhutanese tourism company)
-- **Project Location**: `D:\VS STUDIO PROJECT\wangchuk-tour`
-- **Repository**: https://github.com/famedigital/wangchukstour.git
-- **Tech Stack**: Next.js 16.2.9 (App Router), TypeScript, Tailwind CSS v4, Framer Motion, shadcn/ui
-- **Deployment**: Vercel (https://wangchukstour.vercel.app)
-- **Backend**: Supabase (installed but not configured - using mock data)
+**Last updated:** 2026-08-20  
+**Status:** Live app + admin CMS + Operations client files. Not mock data.
 
-## Design System (Premium Red Theme)
+## Identity
 
-### Color Palette
-```css
-/* Primary Red Colors */
---prayer-red: #DC143C;
---monastery-red: #B91C1C;
---crimson: #DC143C;
+| | |
+|---|---|
+| Client | Sacred Kingdom Travel (Bhutan inbound) |
+| Workspace | `c:\GitHub\sacred himalayan` |
+| GitHub | https://github.com/famedigital/sacredkingdom.git |
+| Default branch | `master` |
+| GitHub CLI (push) | `famedigital` |
+| Package name | `sacred-kingdom-travel` |
+| Founder | Kinzang Coth — portrait `public/images/founder-kinzang-coth.jpg` (not monastery stock) |
 
-/* Accent Colors */
---prayer-blue: #1E3A5F;
---prayer-green: #4A6741;
---prayer-yellow: #D4A017;
+Legacy names in the DB (Wangchuk Tours, Sacred Himalaya) must **never** show on the public site. Use `normalizeCompanyName`.
 
-/* Gradients */
-linear-gradient(135deg, #DC143C 0%, #8B0000 50%, #D4A017 100%)
-linear-gradient(135deg, #DC143C 0%, #B91C1C 100%)
-```
+## Stack
 
-### Typography
-- **Headings**: Custom font-heading (Poppins/Plus Jakarta Sans)
-- **Body**: Inter/default sans
-- **Animations**: Framer Motion with smooth easing
+- Next.js **16.2.9** App Router, React 19, TypeScript, Tailwind **4**, shadcn/ui
+- Auth: custom JWT + httpOnly cookies (`lib/auth/jwt.ts`). Access ~12h, refresh ~30d. When refreshing, **strip `exp` / `iat` / `nbf`** via `signingPayload` or `jwt.sign` throws and the admin gets 401.
+- Admin APIs: `requireAuth` / `getCurrentUser`; DB writes via `createAdminClient()` (service role).
+- Supabase (Postgres): project **`ugsjyzuyorfwzxfonpbz`** — URL only in `.env.local`, never commit keys.
+- Cloudinary cloud **`hqxti5zm`**, folder **`sacred-himalaya/`**. Partner logos: `sacred-himalaya/partners/*` (transparent PNGs).
+- Admin login path: `/admin/login`. Local admin email historically `admin@sacredkingdom.travel` — password lives in Supabase `admin_users`, **not in git**.
 
-### Design Principles
-- **No borders**: Use shadows instead of borders for modern look
-- **Shadows**: `shadow-lg` is standard
-- **Centering**: Container max-width 1400px with auto margins
-- **Responsive**: Mobile-first approach with proper breakpoints
+## Brand (public)
 
-## Project Status
+- Black `#0A0A0A`, gold `#C4A35A` / `#E8D5A3`, ivory `#F4F1EA`
+- Mega menu hover: gold wash + border (`megaRowClass` in `PublicMegaMenu.tsx`)
+- Destinations “three stills”: **mosaic** (Paro large, Punakha/Haa stacked) in `DestinationPortraits.tsx` — not a gallery plate
+- Partners: wash-dusk bar → thin ticker → centered static row (`PartnersMarquee.tsx`)
+- Do not put partner marks on white cards
 
-### Completed (Phase 4: Public Pages) ✅
-- [x] Homepage with premium sunset hero section
-- [x] Tours listing with filtering system
-- [x] Tour detail pages
-- [x] About page
-- [x] Blog listing & detail pages
-- [x] Contact page with form
-- [x] Navigation component (transparent on homepage, solid on other pages)
-- [x] Footer component
-- [x] Premium animations (ScrollReveal, StaggerChildren, MagneticButton)
-- [x] Mock data for tours and blogs
+## Operations (how clients work)
 
-### Mock Admin Dashboard ✅
-- [x] Admin panel at `/admin/dashboard` for client visualization
-- [x] Dashboard with mock statistics
-- [x] Bookings management (mock data)
-- [x] Tours management (mock data)
-- [x] Inquiries management (mock data)
-- [x] Blog preview (mock data)
-- [x] Settings interface
-- **Note**: No backend connection - all data is hardcoded for visualization
+Sidebar: **Clients** `/admin/operations` and **Rosters** `/admin/operations/rosters`. Old `/admin/operations/guides` (etc.) redirect via `app/admin/operations/[resource]/page.tsx`.
 
-### Design Updates Completed ✅
-- [x] Red gradient theme applied across all pages
-- [x] Removed all black borders (replaced with shadows)
-- [x] Fixed container centering (max-width: 1400px, auto margins)
-- [x] Redesigned tour cards (more compact, price overlay, icon badges)
-- [x] Fixed TypeScript build errors for Vercel deployment
-- [x] Updated hero CTA button to white
+1. List: `OpsClientList` — search + **Add client** (name, email, optional phone, optional tour + travel date).
+2. Create: `POST /api/admin/customers` → `upsertMasterClient` (`lib/clients/upsert.ts`). Optional tour creates a pending `bookings` row.
+3. File: `/admin/operations/clients/[id]` (`opsClientHref` in `lib/ops/client-key.ts`) — booking switcher + tabs: Guide, Car, Hotels, Flights, Payments, Expenses, Docs, Source, Rates.
+4. Rates persist as `Rate: {name}` in `booking_operations.internal_notes` (no extra table).
+5. Alternate create path: Tours → Clients → `POST /api/admin/tours/[id]/clients`.
+6. Bookings dialog: “Open in Operations” uses `opsClientHref`.
 
-## Important File Locations
+Master table: `clients` (`migrations/20260722_master_clients_itinerary.sql`). If missing, GET customers falls back to bookings/inquiries; POST add-client fails until the migration is run.
 
-### Pages
-```
-app/
-├── page.tsx                    # Homepage with sunset hero
-├── tours/
-│   ├── page.tsx               # Tours listing with filters
-│   └── [slug]/page.tsx       # Tour detail pages
-├── blog/
-│   ├── page.tsx               # Blog listing
-│   └── [slug]/page.tsx       # Blog detail
-├── about/page.tsx             # About page
-├── contact/page.tsx          # Contact page
-└── admin/
-    └── dashboard/page.tsx     # Mock admin dashboard
-```
+Rosters (guides, cars, hotels, …) stay on `/admin/operations/rosters?tab=`.
 
-### Components
-```
-components/
-├── public/
-│   ├── Navigation.tsx         # Transparent on home, solid elsewhere
-│   └── Footer.tsx
-├── ui/
-│   ├── card.tsx              # Fixed: no borders, uses shadow-lg
-│   ├── magnetic-button.tsx   # Fixed TypeScript errors
-│   └── scroll-reveal.tsx     # Fixed TypeScript errors
-└── animations/
-    └── prayer-flags.tsx      # Animated prayer flags
-```
+## Public + CMS map
 
-### Data
-```
-lib/mock-data/
-├── tours.ts                  # 5 sample tours
-└── blogs.ts                  # 4 sample blog posts
-```
+- Public: `/` `/tours` `/tours/[slug]` `/about` `/contact` `/blog` `/journal` `/bhutan` `/experience` `/travel-info` `/faq` `/privacy` `/terms`
+- Admin: sidebar in `components/admin/AdminSidebar.tsx`
+- In-app staff manual: `/admin/docs` (`AdminDocumentation.tsx`)
+- Operator SQL after `DEPLOY_DATABASE.sql`: files in `migrations/`
 
-## Key Implementation Details
+## Dev
 
-### Navigation Component
-- **Homepage**: Transparent background with white text
-- **Other pages**: Solid background with proper contrast
-- **Mobile**: Responsive hamburger menu
-
-### Tour Cards Design
-- Compact layout (h-56 instead of h-64)
-- Price overlay on image (bottom-right)
-- Icon badges with gradient backgrounds
-- Inline "View Details" CTA
-- No borders, uses shadows
-
-### Container CSS (app/globals.css)
-```css
-.container {
-  width: 100%;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-```
-
-### Card Component Fix
-- Removed `ring-1 ring-foreground/10` (was causing borders)
-- Replaced with `shadow-lg`
-- Removed `border-t` from CardFooter
-
-## Vercel Deployment
-- **URL**: https://wangchukstour.vercel.app
-- **Status**: Active and building successfully
-- **Recent Fixes**:
-  - Fixed MagneticButton TypeScript errors
-  - Fixed scroll-reveal TypeScript errors
-  - Added missing Plus icon import in admin dashboard
-
-## Backend Status
-- **Supabase**: Installed but not configured
-- **Current State**: Using mock data for all features
-- **Admin Panel**: Mock dashboard at `/admin/dashboard` (no authentication)
-
-## GitHub Repository
-- **Remote**: https://github.com/famedigital/wangchukstour.git
-- **Branch**: master
-- **Recent Commits**:
-  - Added mock admin dashboard
-  - Fixed TypeScript build errors
-  - Updated hero CTA button to white
-
-## Development Commands
 ```bash
-# Start dev server
-npm run dev
-
-# Build for production
+npm run dev    # if 3000 is taken, Next picks 3001/3003 — check the terminal
 npm run build
-
-# Deploy to Vercel
-vercel --prod
-
-# Sync to GitHub
-git add .
-git commit -m "message"
-git push
 ```
 
-## Known Issues / Future Work
-- Supabase needs to be configured for real backend
-- Authentication system not implemented
-- CMS inline editing not implemented
-- Real booking system not connected
+Do not commit `.env*`. Do not put Cloudinary API secrets or Supabase service-role keys in markdown.
 
-## Quick Reference for Agents
+## Do not regress
 
-### When Working on This Project:
-1. **Always read AGENT_MEMORY.md first** to understand context
-2. **Use premium red gradient theme** for all new features
-3. **Never add borders** - use shadows instead
-4. **Ensure proper centering** with max-width: 1400px container
-5. **Maintain consistent design** across all pages
-6. **Test TypeScript build** before pushing (`npm run build`)
-
-### Color Usage Guide
-- **Primary CTAs**: `linear-gradient(135deg, #DC143C 0%, #8B0000 100%)`
-- **Badges**: `linear-gradient(135deg, #DC143C 0%, #B91C1C 100%)`
-- **Accents**: Gold gradients for featured items
-- **Backgrounds**: Use muted/50 variants, not black
-
-### Common Patterns
-- **Hero sections**: Gradient backgrounds with ScrollReveal animations
-- **Cards**: rounded-2xl, shadow-lg, hover effects
-- **Buttons**: MagneticButton for premium feel
-- **Grid**: Responsive with proper breakpoints
-- **Spacing**: Consistent py-16 to py-32 for sections
+- JWT refresh must use a clean signing payload (no `exp` on the object passed to `jwt.sign`)
+- Contact page: declare `officeHoursNote` before `contactItems` (TDZ)
+- Founder image is SKT portrait, not `download-5.jpeg`
+- CSS class `.gold-rule {` brace must stay valid
