@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Save, Globe, Mail, Phone, MapPin, Check, X, Search, Image as ImageIcon, FileText, Code2, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { normalizeCompanyName } from '@/lib/brand-defaults';
 
 interface SEOSettings {
   // Site Info
@@ -23,6 +24,7 @@ interface SEOSettings {
   social_facebook: string;
   social_instagram: string;
   social_twitter: string;
+  social_linkedin: string;
   social_tripadvisor: string;
 
   // Global SEO
@@ -137,6 +139,8 @@ export function SEOManagement() {
             data.settings.social_facebook || blob.social_facebook || prev.social_facebook,
           social_instagram:
             data.settings.social_instagram || blob.social_instagram || prev.social_instagram,
+          social_linkedin:
+            data.settings.social_linkedin || blob.social_linkedin || prev.social_linkedin,
           social_tripadvisor:
             data.settings.social_tripadvisor ||
             blob.social_tripadvisor ||
@@ -480,6 +484,19 @@ export function SEOManagement() {
                       type="url"
                       value={settings.social_twitter}
                       onChange={(e) => updateSetting('social_twitter', e.target.value)}
+                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
+                      placeholder=""
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-sky-700" />
+                      LinkedIn URL
+                    </label>
+                    <input
+                      type="url"
+                      value={settings.social_linkedin}
+                      onChange={(e) => updateSetting('social_linkedin', e.target.value)}
                       className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder=""
                     />
