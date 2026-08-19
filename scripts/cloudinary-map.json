@@ -1,0 +1,152 @@
+{
+  "logo": {
+    "id": "logo",
+    "public_id": "sacred-himalaya/logo",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140686/sacred-himalaya/logo.png"
+  },
+  "hero-1": {
+    "id": "hero-1",
+    "public_id": "sacred-himalaya/hero-1",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140687/sacred-himalaya/hero-1.jpg"
+  },
+  "hero-2": {
+    "id": "hero-2",
+    "public_id": "sacred-himalaya/hero-2",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140688/sacred-himalaya/hero-2.jpg"
+  },
+  "hero-3": {
+    "id": "hero-3",
+    "public_id": "sacred-himalaya/hero-3",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140689/sacred-himalaya/hero-3.jpg"
+  },
+  "hero-4": {
+    "id": "hero-4",
+    "public_id": "sacred-himalaya/hero-4",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140691/sacred-himalaya/hero-4.jpg"
+  },
+  "hero-5": {
+    "id": "hero-5",
+    "public_id": "sacred-himalaya/hero-5",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140692/sacred-himalaya/hero-5.jpg"
+  },
+  "theme-heritage": {
+    "id": "theme-heritage",
+    "public_id": "sacred-himalaya/theme-heritage",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140693/sacred-himalaya/theme-heritage.jpg"
+  },
+  "theme-festivals": {
+    "id": "theme-festivals",
+    "public_id": "sacred-himalaya/theme-festivals",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140694/sacred-himalaya/theme-festivals.jpg"
+  },
+  "theme-trekkings": {
+    "id": "theme-trekkings",
+    "public_id": "sacred-himalaya/theme-trekkings",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140695/sacred-himalaya/theme-trekkings.jpg"
+  },
+  "theme-relaxation": {
+    "id": "theme-relaxation",
+    "public_id": "sacred-himalaya/theme-relaxation",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140696/sacred-himalaya/theme-relaxation.jpg"
+  },
+  "tour-discover-bhutan": {
+    "id": "tour-discover-bhutan",
+    "public_id": "sacred-himalaya/tour-discover-bhutan",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140697/sacred-himalaya/tour-discover-bhutan.jpg"
+  },
+  "tour-spiritual-journey": {
+    "id": "tour-spiritual-journey",
+    "public_id": "sacred-himalaya/tour-spiritual-journey",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140698/sacred-himalaya/tour-spiritual-journey.jpg"
+  },
+  "tour-natures-paradise": {
+    "id": "tour-natures-paradise",
+    "public_id": "sacred-himalaya/tour-natures-paradise",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140699/sacred-himalaya/tour-natures-paradise.jpg"
+  },
+  "tour-himalayan-trekking": {
+    "id": "tour-himalayan-trekking",
+    "public_id": "sacred-himalaya/tour-himalayan-trekking",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140700/sacred-himalaya/tour-himalayan-trekking.jpg"
+  },
+  "tour-cultural-splendors": {
+    "id": "tour-cultural-splendors",
+    "public_id": "sacred-himalaya/tour-cultural-splendors",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140701/sacred-himalaya/tour-cultural-splendors.jpg"
+  },
+  "tour-festival-extravaganza": {
+    "id": "tour-festival-extravaganza",
+    "public_id": "sacred-himalaya/tour-festival-extravaganza",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140702/sacred-himalaya/tour-festival-extravaganza.jpg"
+  },
+  "tour-wellness-retreat": {
+    "id": "tour-wellness-retreat",
+    "public_id": "sacred-himalaya/tour-wellness-retreat",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140703/sacred-himalaya/tour-wellness-retreat.jpg"
+  },
+  "place-taktsang": {
+    "id": "place-taktsang",
+    "public_id": "sacred-himalaya/place-taktsang",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140704/sacred-himalaya/place-taktsang.jpg"
+  },
+  "place-buddha": {
+    "id": "place-buddha",
+    "public_id": "sacred-himalaya/place-buddha",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140705/sacred-himalaya/place-buddha.jpg"
+  },
+  "place-dochula": {
+    "id": "place-dochula",
+    "public_id": "sacred-himalaya/place-dochula",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140706/sacred-himalaya/place-dochula.jpg"
+  },
+  "place-phobjikha": {
+    "id": "place-phobjikha",
+    "public_id": "sacred-himalaya/place-phobjikha",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140707/sacred-himalaya/place-phobjikha.jpg"
+  },
+  "place-haa": {
+    "id": "place-haa",
+    "public_id": "sacred-himalaya/place-haa",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140708/sacred-himalaya/place-haa.jpg"
+  },
+  "place-manas": {
+    "id": "place-manas",
+    "public_id": "sacred-himalaya/place-manas",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140709/sacred-himalaya/place-manas.jpg"
+  },
+  "place-punakha": {
+    "id": "place-punakha",
+    "public_id": "sacred-himalaya/place-punakha",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140710/sacred-himalaya/place-punakha.jpg"
+  },
+  "special-tbt": {
+    "id": "special-tbt",
+    "public_id": "sacred-himalaya/special-tbt",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140710/sacred-himalaya/special-tbt.jpg"
+  },
+  "special-homestay": {
+    "id": "special-homestay",
+    "public_id": "sacred-himalaya/special-homestay",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140711/sacred-himalaya/special-homestay.jpg"
+  },
+  "special-womens": {
+    "id": "special-womens",
+    "public_id": "sacred-himalaya/special-womens",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140713/sacred-himalaya/special-womens.jpg"
+  },
+  "generated-taktsang": {
+    "id": "generated-taktsang",
+    "public_id": "sacred-himalaya/generated-taktsang",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140716/sacred-himalaya/generated-taktsang.png"
+  },
+  "generated-punakha": {
+    "id": "generated-punakha",
+    "public_id": "sacred-himalaya/generated-punakha",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140718/sacred-himalaya/generated-punakha.png"
+  },
+  "generated-dochula": {
+    "id": "generated-dochula",
+    "public_id": "sacred-himalaya/generated-dochula",
+    "url": "https://res.cloudinary.com/hqxti5zm/image/upload/v1787140720/sacred-himalaya/generated-dochula.png"
+  }
+}
