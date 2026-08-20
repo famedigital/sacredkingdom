@@ -11,6 +11,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { getRelatedTours, getTourBySlug, Tour } from '@/lib/database';
 import { TourCards } from '@/components/public/TourCards';
 import { formatTourPrice, isTourPriceVisible } from '@/lib/tour-options';
+import { normalizeTourInclusions } from '@/lib/quotes/client-quote';
 import { buildSocialMetadata, SITE_NAME } from '@/lib/seo';
 import { categoryDisplayName } from '@/lib/tour-category';
 import { cn } from '@/lib/utils';
@@ -144,8 +145,10 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
     );
   }
 
-  const includedItems = (tour.included_items || tour.inclusions || []).filter(
-    (item): item is string => Boolean(item && String(item).trim())
+  const includedItems = normalizeTourInclusions(
+    (tour.included_items || tour.inclusions || []).filter(
+      (item): item is string => Boolean(item && String(item).trim())
+    )
   );
   const excludedItems = (tour.excluded_items || tour.exclusions || []).filter(
     (item): item is string => Boolean(item && String(item).trim())

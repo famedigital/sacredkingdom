@@ -29,6 +29,15 @@ import {
 
 import { getOpsResource } from '@/lib/ops/registry';
 import { OpsCrudPage } from '@/components/admin/OpsCrudPage';
+import {
+  emptyClientQuote,
+  parseQuoteFromNotes,
+  quoteHasAmounts,
+  quoteTotal,
+  stripQuoteFromNotes,
+  writeQuoteIntoNotes,
+  type ClientQuote,
+} from '@/lib/quotes/client-quote';
 
 type DialogTab = 'operations' | 'itinerary' | 'documents' | 'share';
 type ClientTab =
@@ -92,6 +101,7 @@ export function BookingOpsPanel({
   const [sources, setSources] = useState<RegistryRow[]>([]);
   const [rates, setRates] = useState<RegistryRow[]>([]);
   const [rateId, setRateId] = useState('');
+  const [quote, setQuote] = useState<ClientQuote>(emptyClientQuote());
 
   const loadAll = async () => {
     setLoading(true);
@@ -112,7 +122,17 @@ export function BookingOpsPanel({
       const linksJson = await linksRes.json();
       const itinJson = await itinRes.json();
 
-      if (opsRes.ok) setOps(opsJson.operations || emptyOperations(bookingId));
+      if (opsRes.ok) {
+        const operations = opsJson.operations || emptyOperations(bookingId);
+        const rawNotes = String(operations.internal_notes || '');
+        setQuote(parseQuoteFromNotes(rawNotes) || emptyClientQuote());
+        setOps({
+          ...operations,
+          internal_notes: stripQuoteFromNotes(rawNotes)
+            .replace(/^Rate:.*(\n|$)/m, '')
+            .trim(),
+        });
+      }
       else if (opsJson.error) toast.error(opsJson.error);
 
       if (docsRes.ok) setDocs(docsJson.documents || []);
@@ -171,9 +191,10 @@ export function BookingOpsPanel({
     try {
       const rate = rates.find((row) => row.id === rateId);
       const notesWithoutRate = String(ops.internal_notes || '').replace(/^Rate:.*(\n|$)/m, '').trim();
-      const internal_notes = rate
+      const withRate = rate
         ? `Rate: ${rate.name}${notesWithoutRate ? `\n${notesWithoutRate}` : ''}`
         : notesWithoutRate;
+      const internal_notes = writeQuoteIntoNotes(withRate, quote);
       const res = await fetch(`/api/admin/bookings/${bookingId}/operations`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -181,7 +202,20 @@ export function BookingOpsPanel({
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || 'Save failed');
-      setOps(json.operations);
+      setOps({
+        ...json.operations,
+        internal_notes: stripQuoteFromNotes(json.operations?.internal_notes)
+          .replace(/^Rate:.*(\n|$)/m, '')
+          .trim(),
+      });
+      if (quoteHasAmounts(quote)) {
+        const total = quoteTotal(quote);
+        await fetch('/api/admin/bookings', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: bookingId, total_amount: total }),
+        });
+      }
       toast.success('Operations saved');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to save operations');
@@ -794,7 +828,7 @@ export function BookingOpsPanel({
       {tab === 'rates' ? (
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <Label>Applied rate</Label>
+            <Label>Applied rate card</Label>
             <select
               className="flex h-9 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm"
               value={rateId}
@@ -808,9 +842,63 @@ export function BookingOpsPanel({
               ))}
             </select>
           </div>
+          <div className="rounded-xl border border-border p-4 space-y-3">
+            <p className="text-sm font-medium">Client quote</p>
+            <p className="text-xs text-muted-foreground">
+              Three lines only. Station meet, bags, immigration, and return to the coach sit inside
+              guide + entry + car + drop — never as their own lines. Hotel is the stay total, not a nightly rate.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="space-y-1.5 sm:col-span-3">
+                <Label htmlFor="quote-currency">Currency</Label>
+                <select
+                  id="quote-currency"
+                  className="flex h-9 w-full max-w-[10rem] rounded-lg border border-input bg-transparent px-2.5 text-sm"
+                  value={quote.currency}
+                  onChange={(e) =>
+                    setQuote((prev) => ({ ...prev, currency: e.target.value === 'USD' ? 'USD' : 'INR' }))
+                  }
+                >
+                  <option value="INR">INR (₹)</option>
+                  <option value="USD">USD ($)</option>
+                </select>
+              </div>
+              <div className="space-y-1.5 sm:col-span-3">
+                <Label>Guide + entry + car + drop</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quote.package || ''}
+                  onChange={(e) => setQuote((prev) => ({ ...prev, package: Number(e.target.value) || 0 }))}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Hotel</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quote.hotel || ''}
+                  onChange={(e) => setQuote((prev) => ({ ...prev, hotel: Number(e.target.value) || 0 }))}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>SDF</Label>
+                <Input
+                  type="number"
+                  min="0"
+                  value={quote.sdf || ''}
+                  onChange={(e) => setQuote((prev) => ({ ...prev, sdf: Number(e.target.value) || 0 }))}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Total</Label>
+                <Input readOnly value={quoteTotal(quote) || ''} />
+              </div>
+            </div>
+          </div>
           <Button type="button" onClick={saveOps} disabled={saving}>
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            Save rate
+            Save quote
           </Button>
         </div>
       ) : null}

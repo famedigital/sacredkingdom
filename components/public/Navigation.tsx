@@ -127,23 +127,15 @@ export function Navigation({ forceSolid: _forceSolid = false }: { forceSolid?: b
         Skip to content
       </a>
 
-      <header className="fixed inset-x-0 top-0 z-[100] hidden overflow-visible lg:block">
+      <header className="fixed inset-x-0 top-0 z-[100] hidden overflow-visible xl:block">
         <nav aria-label="Primary" className="relative h-16 overflow-visible">
           <div
             aria-hidden
             className="nav-paper pointer-events-none absolute inset-0"
           />
 
-          <Link
-            href="/"
-            className="absolute top-1/2 left-1/2 z-[70] -translate-x-1/2 -translate-y-1/2 outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            aria-label={`${brand.name} home`}
-          >
-            <NavBrandLockup markHeight={Math.max(Math.min(logoHeight, 88), 72)} priority />
-          </Link>
-
-          <div className="container relative flex h-16 items-center justify-between gap-4">
-            <div className="flex h-16 min-w-0 flex-1 items-center justify-start pr-[min(14rem,24vw)]">
+          <div className="container relative grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
+            <div className="flex h-16 min-w-0 items-center justify-start overflow-hidden">
               <PublicMegaMenu
                 tourCategories={tourCategories}
                 triggerClassName={megaTrigger}
@@ -151,14 +143,35 @@ export function Navigation({ forceSolid: _forceSolid = false }: { forceSolid?: b
                 align="start"
               />
             </div>
-            <div className="flex h-16 min-w-0 flex-1 items-center justify-end gap-2 pl-[min(14rem,24vw)]">
+
+            <Link
+              href="/"
+              className="z-[70] justify-self-center outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label={`${brand.name} home`}
+            >
+              <span className="2xl:hidden">
+                <NavBrandLockup
+                  markHeight={Math.max(Math.min(logoHeight, 72), 56)}
+                  compact
+                  priority
+                />
+              </span>
+              <span className="hidden 2xl:block">
+                <NavBrandLockup
+                  markHeight={Math.max(Math.min(logoHeight, 88), 72)}
+                  priority
+                />
+              </span>
+            </Link>
+
+            <div className="flex h-16 min-w-0 items-center justify-end gap-1.5 overflow-hidden 2xl:gap-2">
               <PublicMegaMenu
                 tourCategories={tourCategories}
                 triggerClassName={megaTrigger}
                 linkClassName={desktopLink()}
                 align="end"
               />
-              <div className="flex h-8 shrink-0 items-center gap-1.5 pl-1">
+              <div className="flex h-8 shrink-0 items-center gap-1 pl-0.5 2xl:gap-1.5 2xl:pl-1">
                 <Link
                   href="/admin/login"
                   aria-label="Admin login"
@@ -182,9 +195,10 @@ export function Navigation({ forceSolid: _forceSolid = false }: { forceSolid?: b
                 </a>
                 <Link
                   href="/contact#contact-form"
-                  className="metal-gold inline-flex h-8 items-center justify-center rounded-full px-4 text-[11px] leading-none font-medium tracking-[0.16em] text-primary-foreground uppercase transition-colors"
+                  className="metal-gold inline-flex h-8 items-center justify-center rounded-full px-3 text-[11px] leading-none font-medium tracking-[0.16em] text-primary-foreground uppercase transition-colors 2xl:px-4"
                 >
-                  Plan your Trip
+                  <span className="2xl:hidden">Plan</span>
+                  <span className="hidden 2xl:inline">Plan your Trip</span>
                 </Link>
               </div>
             </div>
@@ -193,7 +207,7 @@ export function Navigation({ forceSolid: _forceSolid = false }: { forceSolid?: b
       </header>
 
       {isTopMobile ? (
-          <header className="fixed inset-x-0 top-0 z-[100] overflow-visible lg:hidden">
+          <header className="fixed inset-x-0 top-0 z-[100] overflow-visible xl:hidden">
             <nav aria-label="Primary" className="relative h-14 overflow-visible">
               <div
                 aria-hidden
@@ -230,12 +244,12 @@ export function Navigation({ forceSolid: _forceSolid = false }: { forceSolid?: b
             <button
               type="button"
               aria-label="Dismiss trips menu"
-              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] lg:hidden"
+              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] xl:hidden"
               onClick={() => setMobileToursOpen(false)}
             />
           ) : null}
 
-          <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-3 pb-[max(0.625rem,env(safe-area-inset-bottom))] lg:hidden">
+          <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-3 pb-[max(0.625rem,env(safe-area-inset-bottom))] xl:hidden">
             <div className="pointer-events-auto mx-auto flex w-full max-w-md flex-col gap-2">
               {mobileToursOpen ? (
                 <div

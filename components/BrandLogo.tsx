@@ -55,29 +55,40 @@ export function NavBrandLockup({
   markHeight = 52,
   onDark = false,
   priority = false,
+  /** Desktop mid-widths: shorter type, no tagline, so nav links do not collide. */
+  compact = false,
 }: {
   markHeight?: number;
   onDark?: boolean;
   priority?: boolean;
+  compact?: boolean;
 }) {
   const brand = useCompanyBrand();
-  const mark = Math.min(Math.max(markHeight, 44), 56);
+  const mark = Math.min(Math.max(markHeight, 44), compact ? 52 : 56);
 
   return (
-    <span className="flex max-w-[min(100%,24rem)] items-center gap-2.5 overflow-visible">
+    <span
+      className={cn(
+        'flex items-center overflow-hidden',
+        compact ? 'max-w-[14.5rem] gap-2' : 'max-w-[min(100%,22rem)] gap-2.5'
+      )}
+    >
       <BrandLogo height={mark} priority={priority} alt="" />
       <span className="flex min-w-0 flex-col justify-center text-left">
         <span
           className={cn(
-            'font-accent truncate text-[0.98rem] leading-[1.1] font-medium tracking-tight sm:text-lg',
+            'font-accent truncate leading-[1.1] font-medium tracking-tight',
+            compact ? 'text-[0.92rem]' : 'text-[0.98rem] sm:text-lg',
             onDark ? 'text-white' : 'text-foreground'
           )}
         >
           {brand.name}
         </span>
-        <span className="mt-0.5 truncate text-[10px] leading-tight font-medium tracking-[0.12em] text-primary">
-          {brand.tagline}
-        </span>
+        {!compact ? (
+          <span className="mt-0.5 truncate text-[10px] leading-tight font-medium tracking-[0.12em] text-primary">
+            {brand.tagline}
+          </span>
+        ) : null}
       </span>
     </span>
   );

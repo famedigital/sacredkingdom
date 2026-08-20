@@ -4,6 +4,13 @@ import {
   DEFAULT_COMPANY_NAME,
   DEFAULT_COMPANY_TAGLINE,
 } from '@/lib/brand-defaults';
+import {
+  formatQuoteMoney,
+  quoteHasAmounts,
+  quoteLines,
+  quoteTotal,
+  type ClientQuote,
+} from '@/lib/quotes/client-quote';
 
 export type InvoiceBooking = {
   booking_number: string;
@@ -22,6 +29,7 @@ export type InvoiceBooking = {
   } | null;
   tour_title?: string | null;
   payments?: BookingPayment[];
+  quote?: ClientQuote | null;
 };
 
 const COMPANY_DEFAULTS = {
@@ -34,7 +42,8 @@ const COMPANY_DEFAULTS = {
 
 export type InvoiceCompany = Partial<typeof COMPANY_DEFAULTS>;
 
-function money(n: number) {
+function money(n: number, currency: 'INR' | 'USD' = 'USD') {
+  if (currency === 'INR') return formatQuoteMoney(n, 'INR');
   return `$${Number(n || 0).toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -58,7 +67,9 @@ export function buildInvoiceHtml(
 ): string {
   const COMPANY = { ...COMPANY_DEFAULTS, ...companyOverrides };
   const payments = booking.payments || [];
-  const total = Number(booking.total_amount || 0);
+  const quote = booking.quote && quoteHasAmounts(booking.quote) ? booking.quote : null;
+  const currency = quote?.currency || 'USD';
+  const total = quote ? quoteTotal(quote) : Number(booking.total_amount || 0);
   const paid = sumPayments(payments);
   const balance = Math.max(0, total - paid);
   const tourTitle = booking.tour?.title || booking.tour_title || 'Custom / Inquiry tour';
@@ -74,7 +85,7 @@ export function buildInvoiceHtml(
           <td>${i + 1}</td>
           <td>${fmtDate(p.paid_at)}</td>
           <td>${p.method || 'Deposit / installment'}${p.note ? `<br/><span class="muted">${escapeHtml(p.note)}</span>` : ''}</td>
-          <td class="right">${money(p.amount)}</td>
+          <td class="right">${money(p.amount, currency)}</td>
         </tr>`
           )
           .join('')
@@ -248,13 +259,26 @@ export function buildInvoiceHtml(
         </tr>
       </thead>
       <tbody>
+        ${
+          quote
+            ? quoteLines(quote)
+                .map(
+                  (line) => `
+        <tr>
+          <td>${escapeHtml(line.label)}</td>
+          <td class="right">${money(line.amount, currency)}</td>
+        </tr>`
+                )
+                .join('')
+            : `
         <tr>
           <td>
             Tour package — ${escapeHtml(tourTitle)}
             <div class="muted">Booking ${escapeHtml(booking.booking_number)} · Created ${fmtDate(booking.created_at)}</div>
           </td>
-          <td class="right">${money(total)}</td>
-        </tr>
+          <td class="right">${money(total, currency)}</td>
+        </tr>`
+        }
       </tbody>
     </table>
 
@@ -274,9 +298,9 @@ export function buildInvoiceHtml(
     </table>
 
     <div class="totals">
-      <div><span>Tour total</span><span>${money(total)}</span></div>
-      <div><span>Paid to date</span><span>${money(paid)}</span></div>
-      <div class="grand"><span>Balance due</span><span>${money(balance)}</span></div>
+      <div><span>Total</span><span>${money(total, currency)}</span></div>
+      <div><span>Paid to date</span><span>${money(paid, currency)}</span></div>
+      <div class="grand"><span>Balance due</span><span>${money(balance, currency)}</span></div>
     </div>
 
     <div class="footer">

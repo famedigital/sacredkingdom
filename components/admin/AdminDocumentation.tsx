@@ -145,7 +145,7 @@ const cmsGuides = [
       'This is the daily ops list. Click a name to open that guest’s file.',
       'Add client: name + email required; phone optional. Pick a trip to create a pending booking so tabs have a tour to attach to.',
       'On the client file, switch bookings if they have more than one trip, then use Guide, Car, Hotels, Flights, Payments, Expenses, Docs, Source, Rates.',
-      'Rates save as a Rate: {name} line in internal notes — no extra table.',
+      'Rates → client quote: Guide + entry + car + drop, Hotel (stay total), SDF. Station transfers are inside the package line — do not list them. Saving the quote also updates the booking total.',
     ],
   },
   {

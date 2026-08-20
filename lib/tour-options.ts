@@ -23,15 +23,13 @@ export const ACCOMMODATION_OPTIONS = [
 ] as const;
 
 export const TOUR_INCLUSION_OPTIONS = [
+  'Guide + entry + car + drop',
+  'Hotel',
   'SDF',
-  'Rooms',
   'Breakfast & dinner',
   'All meals',
   'International flight',
   'Domestic flights',
-  'Guides',
-  'Cars',
-  'Drop & pickup',
 ] as const;
 
 export const TOUR_HIGHLIGHT_OPTIONS = [

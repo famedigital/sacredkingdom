@@ -28,6 +28,7 @@ import {
   syncShowPriceKeywords,
   HIDE_PRICE_KEYWORD,
 } from '@/lib/tour-options';
+import { normalizeTourInclusions } from '@/lib/quotes/client-quote';
 
 function CategorySelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [options, setOptions] = useState<{ slug: string; name: string }[]>([
@@ -165,7 +166,9 @@ export function TourForm({ tour, onSubmit, onCancel }: TourFormProps) {
     thumbnail_url: tour?.thumbnail_url || '',
     gallery_urls: tour?.gallery_urls || [],
     highlights: Array.isArray(tour?.highlights) ? tour.highlights : [],
-    included_items: Array.isArray(tour?.included_items) ? tour.included_items : [],
+    included_items: Array.isArray(tour?.included_items)
+      ? normalizeTourInclusions(tour.included_items)
+      : [],
     excluded_items: Array.isArray(tour?.excluded_items) ? tour.excluded_items : [],
     is_featured: tour?.is_featured || false,
     is_active: tour?.is_active ?? true,

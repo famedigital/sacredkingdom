@@ -59,7 +59,7 @@ export const OPS_RESOURCES: OpsResource[] = [
       { key: 'name', label: 'Property', type: 'text', required: true },
       { key: 'location', label: 'Location', type: 'text' },
       { key: 'room_types', label: 'Room types', type: 'text' },
-      { key: 'contracted_rate', label: 'Contracted rate', type: 'number' },
+      { key: 'contracted_rate', label: 'Total', type: 'number' },
       { key: 'is_active', label: 'Active', type: 'boolean' },
       { key: 'notes', label: 'Notes', type: 'textarea' },
     ],
@@ -68,7 +68,7 @@ export const OPS_RESOURCES: OpsResource[] = [
     id: 'rates',
     table: 'ops_rates',
     title: 'Rates',
-    description: 'SDF, package, and seasonal overlays.',
+    description: 'Client quote templates. Package = guide + entry + car + drop (transfers included). Hotel is a stay total, not per night.',
     fields: [
       { key: 'name', label: 'Name', type: 'text', required: true },
       {

@@ -38,6 +38,7 @@ import {
 import { cn } from '@/lib/utils';
 import type { BookingPayment } from '@/lib/bookings/payments';
 import { openInvoicePrintWindow } from '@/lib/bookings/invoice';
+import { parseQuoteFromNotes } from '@/lib/quotes/client-quote';
 import { BookingOpsPanel } from '@/components/admin/BookingOpsPanel';
 import { opsClientHref } from '@/lib/ops/client-key';
 
@@ -262,10 +263,21 @@ export function BookingManagement() {
         Number(booking.total_amount) > 0
           ? Number(booking.total_amount)
           : Number(booking.suggested_total || 0);
+      let quote = null;
+      try {
+        const opsRes = await fetch(`/api/admin/bookings/${booking.id}/operations`);
+        if (opsRes.ok) {
+          const opsJson = await opsRes.json();
+          quote = parseQuoteFromNotes(opsJson.operations?.internal_notes);
+        }
+      } catch {
+        /* invoice still opens without quote lines */
+      }
       await openInvoicePrintWindow({
         ...booking,
         total_amount: total,
         payments: booking.payments || [],
+        quote,
       });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Could not open invoice');
